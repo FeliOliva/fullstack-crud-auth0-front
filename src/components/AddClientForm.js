@@ -7,7 +7,7 @@ const AddClientForm = () => {
 
   const onFinish = async (values) => {
     try {
-      await axios.post("http://localhost:3001/addClient", values); // Cambia esta URL si es necesario
+      await axios.post("https://fullstack-crud-auth0-back.vercel.app/addClient", values); // Cambia esta URL si es necesario
       message.success("Cliente agregado exitosamente");
       form.resetFields();
     } catch (error) {

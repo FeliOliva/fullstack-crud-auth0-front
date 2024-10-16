@@ -11,7 +11,7 @@ const ClientTable = () => {
 
   const fetchClients = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/clientes"); // Cambia esta URL si es necesario
+      const response = await axios.get("https://fullstack-crud-auth0-back.vercel.app/clientes"); // Cambia esta URL si es necesario
       setClients(response.data);
     } catch (error) {
       message.error("Error al cargar los clientes");
@@ -22,7 +22,7 @@ const ClientTable = () => {
     const endpoint = currentStatus === 1 ? "dropClient" : "upClient";
     console.log(endpoint);
     try {
-      await axios.put(`http://localhost:3001/${endpoint}/${id}`);
+      await axios.put(`https://fullstack-crud-auth0-back.vercel.app/${endpoint}/${id}`);
       message.success("Estado del cliente actualizado exitosamente");
       fetchClients(); // Actualiza la lista de clientes
     } catch (error) {
