@@ -1,13 +1,16 @@
 import React from "react";
 import { Form, Input, Button, message } from "antd";
 import axios from "axios";
+const API_URL = process.env.REACT_APP_API_URL;
+
 
 const AddClientForm = () => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
     try {
-      await axios.post("https://fullstack-crud-auth0-back.vercel.app/addClient", values); // Cambia esta URL si es necesario
+      console.log(values)
+      await axios.post(`${API_URL}/clientes`, values);
       message.success("Cliente agregado exitosamente");
       form.resetFields();
     } catch (error) {
@@ -18,7 +21,6 @@ const AddClientForm = () => {
   return (
     <div style={{ maxWidth: "400px", margin: "auto" }}>
       {" "}
-      {/* Contenedor reducido */}
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item
           name="nombre"

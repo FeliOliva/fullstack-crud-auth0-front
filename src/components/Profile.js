@@ -1,11 +1,10 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Button, Dropdown } from "antd"; // Menu importado solo si necesario
+import { Avatar, Button, Dropdown } from "antd";
 
 const Profile = () => {
   const { user, isAuthenticated, logout } = useAuth0();
 
-  // Menu items para el dropdown
   const items = [
     {
       key: "1",
@@ -35,7 +34,7 @@ const Profile = () => {
   return (
     isAuthenticated && (
       <Dropdown
-        menu={{ items }} // Asegúrate de pasar `items` correctamente
+        menu={{ items }}
         trigger={["click"]}
         placement="bottomRight"
       >
@@ -49,7 +48,6 @@ const Profile = () => {
   );
 };
 
-// Estilos en línea (puedes pasarlos a un archivo CSS si prefieres)
 const styles = {
   avatar: {
     cursor: "pointer",

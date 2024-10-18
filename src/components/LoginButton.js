@@ -1,8 +1,8 @@
 import React from "react";
-import { Button, Typography } from "antd"; // Importa componentes de Ant Design
+import { Button, Typography } from "antd";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const { Title } = Typography; // Desestructura el componente Title de Typography
+const { Title } = Typography;
 
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
@@ -10,7 +10,6 @@ const LoginButton = () => {
   return (
     <div style={styles.container}>
       <Title level={2}>Bienvenido a la Aplicación</Title>{" "}
-      {/* Mensaje de bienvenida */}
       <Button
         type="primary"
         size="large"
@@ -23,18 +22,17 @@ const LoginButton = () => {
   );
 };
 
-// Estilos en línea (puedes pasarlos a un archivo CSS si prefieres)
 const styles = {
   container: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: "100vh", // Ocupa toda la altura de la pantalla
-    backgroundColor: "#f0f2f5", // Color de fondo
+    height: "100vh",
+    backgroundColor: "#f0f2f5",
   },
   button: {
-    marginTop: "20px", // Espaciado superior para el botón
+    marginTop: "20px",
   },
 };
 

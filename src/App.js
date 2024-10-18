@@ -1,6 +1,6 @@
 import "./App.css";
 import LoginButton from "./components/LoginButton";
-import MenuLayout from "./components/MenuLayout"; // Importa el componente MenuLayout
+import MenuLayout from "./components/MenuLayout";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
