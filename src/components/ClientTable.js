@@ -7,7 +7,6 @@ const API_URL = process.env.REACT_APP_API_URL;
 const ClientTable = () => {
   const [clients, setClients] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingClient, setEditingClient] = useState(null);
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1); 
   const [totalClients, setTotalClients] = useState(0); 
@@ -30,7 +29,6 @@ const ClientTable = () => {
   const fetchClientById = async (id) => {
     try {
       const response = await axios.get(`${API_URL}/clientes/${id}`);
-      setEditingClient(response.data); 
       form.setFieldsValue(response.data); 
       setIsModalOpen(true); 
     } catch (error) {
