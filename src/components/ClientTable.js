@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Table, message, Button, Modal, Form, Input } from "antd";
 import axios from "axios";
+import {
+  CloseOutlined,
+  ExclamationCircleOutlined,
+  EditOutlined,
+  FileTextOutlined,
+  DeleteOutlined,
+  CheckCircleOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -8,9 +17,9 @@ const ClientTable = () => {
   const [clients, setClients] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [currentPage, setCurrentPage] = useState(1); 
-  const [totalClients, setTotalClients] = useState(0); 
-  const [pageSize] = useState(3); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalClients, setTotalClients] = useState(0);
+  const [pageSize] = useState(3);
 
   useEffect(() => {
     fetchClients(currentPage, pageSize);
@@ -18,10 +27,12 @@ const ClientTable = () => {
 
   const fetchClients = async (page, limit) => {
     try {
-      const response = await axios.get(`${API_URL}/clientes?page=${page}&limit=${limit}`);
+      const response = await axios.get(
+        `${API_URL}/clientes?page=${page}&limit=${limit}`
+      );
 
-      setClients(response.data.clients); 
-      setTotalClients(response.data.total); 
+      setClients(response.data.clients);
+      setTotalClients(response.data.total);
     } catch (error) {
       message.error("Error al cargar los clientes");
     }
@@ -29,8 +40,8 @@ const ClientTable = () => {
   const fetchClientById = async (id) => {
     try {
       const response = await axios.get(`${API_URL}/clientes/${id}`);
-      form.setFieldsValue(response.data); 
-      setIsModalOpen(true); 
+      form.setFieldsValue(response.data);
+      setIsModalOpen(true);
     } catch (error) {
       message.error("Error al cargar los datos del cliente");
     }
@@ -62,7 +73,6 @@ const ClientTable = () => {
       message.error("Error al actualizar el estado del cliente");
     }
   };
-
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -119,11 +129,17 @@ const ClientTable = () => {
       key: "acciones",
       render: (_, record) => (
         <>
-          <Button type="primary" onClick={() => fetchClientById(record.id)} style={{ marginRight: 8 }}>
-            Editar
-          </Button>
-          <Button type="default" onClick={() => handleToggleStatus(record.id, record.estado)}>
-            {record.estado === 1 ? "Desactivar" : "Activar"}
+          <Button
+            type="primary"
+            onClick={() => fetchClientById(record.id)}
+            style={{ marginRight: 8 }}
+            icon={<EditOutlined />}
+          ></Button>
+          <Button
+            type="default"
+            onClick={() => handleToggleStatus(record.id, record.estado)}
+          >
+            {record.estado === 1 ? <DeleteOutlined /> : <CheckCircleOutlined />}
           </Button>
         </>
       ),
@@ -136,10 +152,12 @@ const ClientTable = () => {
         columns={columns}
         dataSource={clients}
         rowKey="id"
-        pagination={false} 
+        pagination={false}
         style={{ padding: "24px", width: "100%" }}
       />
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+      >
         <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
           Anterior
         </Button>
@@ -164,22 +182,52 @@ const ClientTable = () => {
           <Form.Item label="ID" name="id" hidden>
             <Input disabled />
           </Form.Item>
-          <Form.Item label="Nombre" name="nombre" rules={[{ required: true, message: "Por favor ingresa el nombre" }]}>
+          <Form.Item
+            label="Nombre"
+            name="nombre"
+            rules={[{ required: true, message: "Por favor ingresa el nombre" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="Apellido" name="apellido" rules={[{ required: true, message: "Por favor ingresa el apellido" }]}>
+          <Form.Item
+            label="Apellido"
+            name="apellido"
+            rules={[
+              { required: true, message: "Por favor ingresa el apellido" },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="Dirección" name="direccion" rules={[{ required: true, message: "Por favor ingresa la dirección" }]}>
+          <Form.Item
+            label="Dirección"
+            name="direccion"
+            rules={[
+              { required: true, message: "Por favor ingresa la dirección" },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="Email" name="email" rules={[{ required: true, message: "Por favor ingresa el email" }]}>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Por favor ingresa el email" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="Teléfono" name="telefono" rules={[{ required: true, message: "Por favor ingresa el teléfono" }]}>
+          <Form.Item
+            label="Teléfono"
+            name="telefono"
+            rules={[
+              { required: true, message: "Por favor ingresa el teléfono" },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="CUIL" name="cuil" rules={[{ required: true, message: "Por favor ingresa el CUIL" }]}>
+          <Form.Item
+            label="CUIL"
+            name="cuil"
+            rules={[{ required: true, message: "Por favor ingresa el CUIL" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item label="Estado" name="estado" hidden>
