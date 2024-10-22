@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Table, message, Button, Modal, Form, Input } from "antd";
+import { Table, message, Button, Modal, Form, Input, Tooltip } from "antd";
 import axios from "axios";
 import {
-  CloseOutlined,
-  ExclamationCircleOutlined,
   EditOutlined,
-  FileTextOutlined,
   DeleteOutlined,
   CheckCircleOutlined,
-  PlusCircleOutlined,
 } from "@ant-design/icons";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -92,55 +88,83 @@ const ClientTable = () => {
       title: "Nombre",
       dataIndex: "nombre",
       key: "nombre",
+      render: (text) => (
+        <Tooltip title="Nombre del cliente">
+          <b>{text}</b>
+        </Tooltip>
+      ),
     },
     {
       title: "Apellido",
       dataIndex: "apellido",
       key: "apellido",
+      render: (text) => <Tooltip title="Apellido del cliente">{text}</Tooltip>,
     },
     {
       title: "Dirección",
       dataIndex: "direccion",
       key: "direccion",
+      render: (text) => <Tooltip title="Dirección del cliente">{text}</Tooltip>,
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      render: (text) => (
+        <Tooltip title="Correo electrónico del cliente">{text}</Tooltip>
+      ),
     },
     {
       title: "Teléfono",
       dataIndex: "telefono",
       key: "telefono",
+      render: (text) => <Tooltip title="Teléfono del cliente">{text}</Tooltip>,
     },
     {
       title: "CUIL",
       dataIndex: "cuil",
       key: "cuil",
+      render: (text) => <Tooltip title="CUIL del cliente">{text}</Tooltip>,
     },
     {
       title: "Estado",
       dataIndex: "estado",
       key: "estado",
-      render: (text) => (text === 1 ? "Activo" : "Inactivo"),
+      render: (text) => (
+        <Tooltip title={text === 1 ? "Cliente activo" : "Cliente inactivo"}>
+          {text === 1 ? "Activo" : "Inactivo"}
+        </Tooltip>
+      ),
     },
     {
       title: "Acciones",
       key: "acciones",
       render: (_, record) => (
         <>
-          <Button
-            type="primary"
-            onClick={() => fetchClientById(record.id)}
-            style={{ marginRight: 8 }}
-            icon={<EditOutlined />}
-          ></Button>
-          <Button
-            type="default"
-            onClick={() => handleToggleStatus(record.id, record.estado)}
+          <Tooltip title="Editar cliente">
+            <Button
+              type="primary"
+              onClick={() => fetchClientById(record.id)}
+              style={{ marginRight: 8 }}
+              icon={<EditOutlined />}
+            />
+          </Tooltip>
+          <Tooltip
+            title={
+              record.estado === 1 ? "Desactivar cliente" : "Activar cliente"
+            }
           >
-            {record.estado === 1 ? <DeleteOutlined /> : <CheckCircleOutlined />}
-          </Button>
+            <Button
+              type="default"
+              onClick={() => handleToggleStatus(record.id, record.estado)}
+            >
+              {record.estado === 1 ? (
+                <DeleteOutlined />
+              ) : (
+                <CheckCircleOutlined />
+              )}
+            </Button>
+          </Tooltip>
         </>
       ),
     },
