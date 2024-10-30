@@ -33,11 +33,7 @@ const Profile = () => {
 
   return (
     isAuthenticated && (
-      <Dropdown
-        menu={{ items }}
-        trigger={["click"]}
-        placement="bottomRight"
-      >
+      <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
         <Avatar
           src={user?.picture || "https://via.placeholder.com/40"}
           size={40}

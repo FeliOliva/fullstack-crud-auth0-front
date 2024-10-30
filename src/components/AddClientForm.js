@@ -1,16 +1,20 @@
 import React from "react";
 import { Form, Input, Button, message } from "antd";
 import axios from "axios";
+import { useAuthToken } from "./AuthContext";
 const API_URL = process.env.REACT_APP_API_URL;
-
 
 const AddClientForm = () => {
   const [form] = Form.useForm();
-
+  const { token } = useAuthToken();
   const onFinish = async (values) => {
     try {
-      console.log(values)
-      await axios.post(`${API_URL}/clientes`, values);
+      console.log(values);
+      await axios.post(`${API_URL}/clientes`, values, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       message.success("Cliente agregado exitosamente");
       form.resetFields();
     } catch (error) {

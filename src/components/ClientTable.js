@@ -6,25 +6,32 @@ import {
   DeleteOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
-
+import { useAuthToken } from "./AuthContext";
 const API_URL = process.env.REACT_APP_API_URL;
 
 const ClientTable = () => {
+  const { token } = useAuthToken();
   const [clients, setClients] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalClients, setTotalClients] = useState(0);
   const [pageSize] = useState(3);
+  console.log(API_URL);
 
   useEffect(() => {
     fetchClients(currentPage, pageSize);
-  }, [currentPage]);
+  }, [currentPage, token]);
 
   const fetchClients = async (page, limit) => {
     try {
       const response = await axios.get(
-        `${API_URL}/clientes?page=${page}&limit=${limit}`
+        `${API_URL}/clientes?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       setClients(response.data.clients);
@@ -35,7 +42,11 @@ const ClientTable = () => {
   };
   const fetchClientById = async (id) => {
     try {
-      const response = await axios.get(`${API_URL}/clientes/${id}`);
+      const response = await axios.get(`${API_URL}/clientes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       form.setFieldsValue(response.data);
       setIsModalOpen(true);
     } catch (error) {
@@ -46,7 +57,11 @@ const ClientTable = () => {
   const handleUpdateClient = async () => {
     try {
       const updatedClient = form.getFieldsValue();
-      await axios.put(`${API_URL}/clientes`, updatedClient);
+      await axios.put(`${API_URL}/clientes`, updatedClient, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       message.success("Cliente actualizado exitosamente");
       setIsModalOpen(false);
       fetchClients(currentPage, pageSize);
@@ -58,14 +73,28 @@ const ClientTable = () => {
   const handleToggleStatus = async (id, currentStatus) => {
     try {
       if (currentStatus === 1) {
-        await axios.delete(`${API_URL}/clientes/${id}`, { estado: 0 });
+        console.log(`Bearer ${token}`);
+        await axios.delete(`${API_URL}/clientes/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         message.success("Estado del cliente actualizado exitosamente");
       } else {
-        await axios.post(`${API_URL}/clientes/${id}`, { estado: 1 });
+        await axios.post(
+          `${API_URL}/clientes/${id}`,
+          { estado: 1 },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         message.success("Estado del cliente actualizado exitosamente");
       }
       fetchClients(currentPage, pageSize);
     } catch (error) {
+      console.log(error);
       message.error("Error al actualizar el estado del cliente");
     }
   };
